@@ -404,16 +404,16 @@ You can read their source and see precisely what they do — and all they do is
 
 - Suppose the following is entered into a file "mhelloworld.jl", and then you type `load("mhelloworld.jl")` from the prompt.  What happens?  What happens if you then type `test("wurld")` at the prompt? Why? [Answer](answer_whenruns.md)
 
-    macro hello(ex)
-        println("Hello $ex")
-    end
+        macro hello(ex)
+            println("Hello $ex")
+        end
 
-    function test(w)
-        @hello world
-        @hello w
-        @hello $w
-        @hello "$w"
-    end
+        function test(w)
+            @hello world
+            @hello w
+            @hello $w
+            @hello "$w"
+        end
 
 - Using a macro `@hello`, rewrite "mhelloworld.jl" so that  `test("wurld")` prints `wurld` on the command line. [Answer](answer_helloworld_fixed.md)
 
