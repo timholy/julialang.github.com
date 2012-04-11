@@ -398,3 +398,61 @@ Of course, a large amount of complexity is hidden in the functions used in these
 You can read their source and see precisely what they do — and all they do is construct expression objects to be inserted into your program's syntax tree.
 
 ## Reflection
+
+
+### Exercises
+
+- Suppose the following is entered into a file "mhelloworld.jl", and then you type `load("mhelloworld.jl")` from the prompt.  What happens?  What happens if you then type `test("wurld")` at the prompt? Why? [Answer](answer_whenruns.md)
+
+    macro hello(ex)
+        println("Hello $ex")
+    end
+
+    function test(w)
+        @hello world
+        @hello w
+        @hello $w
+        @hello "$w"
+    end
+
+- Using a macro `@hello`, rewrite "mhelloworld.jl" so that  `test("wurld")` prints `wurld` on the command line. [Answer](answer_helloworld_fixed.md)
+
+- Suppose you enter the following into "mscope.jl", type `load("mscope.jl")` from the prompt, and then `test(7)`.  What happens, and why?  [Answer](answer_scope.md)
+
+    macro set(ex)
+        eval(ex)
+    end
+
+    function test(x)
+        @set a=5
+        println(a*x)
+        test2(x+2)
+    end
+
+    function test2(x)
+        println(a*x)
+    end
+
+- Suppose you append the following to "mscope.jl".  What happens when you execute `test(7)`?  How about `test3(7)`?  Why?  [Answer](answer_scope2.md)
+
+    function test3(x)
+        @set a=6
+        println(a*x)
+        test2(x)
+    end
+
+- Suppose a user has written a file, called "myprintln.jl", whose contents are below.  Write a file "subvert.jl" that, when loaded before "myprintln.jl", will cause `myprintln("Testing")` to produce "HAHA! You're owned! Testing". Note that it's easy to redefine the function `myprintln` _after_ loading "myprintln.jl"; here, the goal here is to achieve this with code that runs _before_ "myprintln.jl" is ever loaded.  [Answer](answer_subvert.md)
+
+    function myprintln(s)
+        println(s)
+    end
+
+- Write a macro `runme` that allows you to do the following, yielding the answer 36, without defining `a` and `b` in the global scope.  [Answer](answer_runme.md)
+
+    function settest(x)
+        @runme a=5 b=a+2
+        (a+b)*x
+    end
+
+    settest(3)
+
